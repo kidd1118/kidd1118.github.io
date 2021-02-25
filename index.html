@@ -173,7 +173,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-02-25 12:12:57 / Modified: 15:29:26" itemprop="dateCreated datePublished" datetime="2021-02-25T12:12:57+08:00">2021-02-25</time>
+              <time title="Created: 2021-02-25 12:12:57 / Modified: 16:29:06" itemprop="dateCreated datePublished" datetime="2021-02-25T12:12:57+08:00">2021-02-25</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -197,22 +197,21 @@
 
       
           <p>本文章可以幫你<br>1.安裝與設定verdaccio<br>2.將verdaccio掛載到IIS<br>3.建立元件並發布到verdaccio<br>4.安裝元件並使用<br>5.把元件掛載到CI/CD Flow上<br>6.一些troubleshooting</p>
-<h2 id="安裝與設定verdaccio"><a href="#安裝與設定verdaccio" class="headerlink" title="安裝與設定verdaccio"></a>安裝與設定verdaccio</h2><p>安裝十分簡單</p>
-<h3 id="安裝verdaccio至globle"><a href="#安裝verdaccio至globle" class="headerlink" title="安裝verdaccio至globle"></a>安裝verdaccio至globle</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install verdaccio -g</span><br></pre></td></tr></table></figure>
-<h3 id="啟動verdaccio"><a href="#啟動verdaccio" class="headerlink" title="啟動verdaccio"></a>啟動verdaccio</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ verdaccio</span><br></pre></td></tr></table></figure>
-<p>於瀏覽器網址列打下 <a target="_blank" rel="noopener" href="http://localhost:4873/">http://localhost:4873/</a> 即可見到以下畫面</p>
-<p><img src="/2021/02/25/Establish-Private-NPM/capture01.png"></p>
-<p>跟著畫面的步驟去 Login =&gt; Publish </p>
-<p>P.S 如果上傳的package size過大，出現以下錯誤訊息<br><img src="/2021/02/25/Establish-Private-NPM/capture09.png"><br>可於<br>C:\Users{username}\AppData\Roaming\verdaccio\config.yaml<br>加上<strong>max_body_size: 100mb</strong><br>C:\Users{username}.npmrc<br>加上<strong>max_body_size=100mb</strong></p>
+<h2 id="安裝與設定verdaccio"><a href="#安裝與設定verdaccio" class="headerlink" title="安裝與設定verdaccio"></a>安裝與設定verdaccio</h2><p><strong>安裝十分簡單</strong><br>1.安裝verdaccio至globle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install verdaccio -g</span><br></pre></td></tr></table></figure>
+<p>2.啟動verdaccio</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ verdaccio</span><br></pre></td></tr></table></figure>
+<p>於瀏覽器網址列打下 <a target="_blank" rel="noopener" href="http://localhost:4873/">http://localhost:4873/</a> 即可見到以下畫面<br><img src="/2021/02/25/Establish-Private-NPM/capture01.png"></p>
+<p>P.S 如果上傳的package size過大，會出現以下錯誤訊息<br><img src="/2021/02/25/Establish-Private-NPM/capture09.png"><br>可於<br>C:\Users{username}\AppData\Roaming\verdaccio\config.yaml<br>加上<strong>max_body_size: 100mb</strong><br>C:\Users{username}.npmrc<br>加上<strong>max_body_size=100mb</strong></p>
 <h2 id="將verdaccio掛載到IIS"><a href="#將verdaccio掛載到IIS" class="headerlink" title="將verdaccio掛載到IIS"></a>將verdaccio掛載到IIS</h2><p>local測試完成後，試著將verdaccio掛成一個服務吧!!<br>因為筆者公司的server為windows base，因此試著將他掛到IIS上<br>官網有十分詳細<a target="_blank" rel="noopener" href="https://verdaccio.org/docs/en/iss-server">教學</a></p>
 <p>1.安裝iisnode<br>2.於安裝目錄執行</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<p>3.將網站掛到IIS上<br><img src="/2021/02/25/Establish-Private-NPM/capture02.png"><br>4.因需要讓verdaccio去讀寫網站資料夾，因次需要增加角色給予full control<br><img src="/2021/02/25/Establish-Private-NPM/capture03.png"><br>5.增加Hanlder Mappings for iisnode並設定Feature Permission<br><img src="/2021/02/25/Establish-Private-NPM/capture04.png"><br><img src="/2021/02/25/Establish-Private-NPM/capture05.png"></p>
-<p>完成後使用瀏覽器執行出現以下訊息，damnnnn!!!<br><img src="/2021/02/25/Establish-Private-NPM/capture06.png"></p>
-<p>發現還需要指定nodejs執行的路徑 =&gt; <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50244164/iisnode-module-is-unable-to-start-the-node-exe-process">issue</a><br><img src="/2021/02/25/Establish-Private-NPM/capture07.png"></p>
+<p>3.將網站掛到IIS上<br><img src="/2021/02/25/Establish-Private-NPM/capture02.png"><br>4.因需要讓verdaccio去讀寫網站資料夾，因次需要增加角色給予full control<br><img src="/2021/02/25/Establish-Private-NPM/capture03.png"><br>5.增加Hanlder Mappings for iisnode並設定Feature Permission<br><img src="/2021/02/25/Establish-Private-NPM/capture04.png"><br><img src="/2021/02/25/Establish-Private-NPM/capture05.png"><br>完成後使用瀏覽器執行出現以下訊息，damnnnn!!!<br><img src="/2021/02/25/Establish-Private-NPM/capture06.png"><br>發現還需要指定nodejs執行的路徑 =&gt; <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50244164/iisnode-module-is-unable-to-start-the-node-exe-process">issue</a><br><img src="/2021/02/25/Establish-Private-NPM/capture07.png"></p>
 <p>完成設置!</p>
-<h2 id="建立元件並發布到verdaccio"><a href="#建立元件並發布到verdaccio" class="headerlink" title="建立元件並發布到verdaccio"></a>建立元件並發布到verdaccio</h2><p>建立元件有幾個地方要注意<br>1.設置.npmignore，如果使用typescript的話，記得tsconfig.json一定要設定不然會造成路徑衝突<br>  <img src="/2021/02/25/Establish-Private-NPM/capture08.png"><br>2.因Private NPM沒有對外網路，因此選擇將package name加上scope並在.npmrc/.yarnrc設定不同registry<br>  <img src="/2021/02/25/Establish-Private-NPM/capture10.png"></p>
-<p>  .npmrc<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@leo:registry&#x3D;http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F;</span><br></pre></td></tr></table></figure><br>  .yarnrc<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;@leo:registry&quot; &quot;http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F;&quot;</span><br></pre></td></tr></table></figure><br>  讓npm install或yarn add自動使用private NPM</p>
+<h2 id="建立元件並發布到verdaccio"><a href="#建立元件並發布到verdaccio" class="headerlink" title="建立元件並發布到verdaccio"></a>建立元件並發布到verdaccio</h2><p>建立元件有幾個地方要注意<br>1.設置.npmignore，如果使用typescript的話，記得tsconfig.json一定要設定不然會造成路徑衝突<br>  <img src="/2021/02/25/Establish-Private-NPM/capture08.png"><br>2.因筆者建立的Private NPM沒有對外網路，因此選擇將package name加上scope並在.npmrc/.yarnrc設定不同registry<br>  <img src="/2021/02/25/Establish-Private-NPM/capture10.png"></p>
+<p>  .npmrc<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@leo:registry&#x3D;http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F;</span><br></pre></td></tr></table></figure><br>  .yarnrc<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;@leo:registry&quot; &quot;http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F;&quot;</span><br></pre></td></tr></table></figure><br>  可以讓npm install或yarn add要安裝scope內的packages時自動使用private NPM</p>
+<h2 id="安裝元件並使用"><a href="#安裝元件並使用" class="headerlink" title="安裝元件並使用"></a>安裝元件並使用</h2><p>  1.安裝<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install @leo&#x2F;common -s</span><br></pre></td></tr></table></figure><br>  2.想要讓程式對應到基礎元件，因此調整了tsconfig.json的baseUrl<br>    <img src="/2021/02/25/Establish-Private-NPM/capture11.png"></p>
+<h2 id="把元件掛載到CI-CD-Flow上"><a href="#把元件掛載到CI-CD-Flow上" class="headerlink" title="把元件掛載到CI/CD Flow上"></a>把元件掛載到CI/CD Flow上</h2><p>  1.建立Build and Publish Job<br>  2.建立GitLab webhook，版控Merged自動trigger job</p>
 
       
     </div>
