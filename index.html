@@ -20,10 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title">
+  <meta name="description" content="A Software Engineer &amp;&amp; A Basketball Fanatic &amp;&amp; An Alcoholic">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小小書僮，可笑可笑">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name">
+<meta property="og:site_name" content="小小書僮，可笑可笑">
+<meta property="og:description" content="A Software Engineer &amp;&amp; A Basketball Fanatic &amp;&amp; An Alcoholic">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Leo Lee">
 <meta name="twitter:card" content="summary">
@@ -41,7 +43,7 @@
   };
 </script>
 
-  <title></title>
+  <title>小小書僮，可笑可笑</title>
   
 
 
@@ -92,9 +94,10 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title"></h1>
+      <h1 class="site-title">小小書僮，可笑可笑</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">murmrur</p>
   </div>
 
   <div class="site-nav-right">
@@ -145,21 +148,21 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/19/test-post/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/25/Establish-Private-NPM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Leo Lee">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="A Software Engineer && A Basketball Fanatic && An Alcoholic">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="">
+      <meta itemprop="name" content="小小書僮，可笑可笑">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/19/test-post/" class="post-title-link" itemprop="url">一條龍建立Private NPM by Verdaccio</a>
+            <a href="/2021/02/25/Establish-Private-NPM/" class="post-title-link" itemprop="url">一條龍建立Private NPM by Verdaccio</a>
         </h2>
 
         <div class="post-meta">
@@ -168,16 +171,19 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2021-02-19 18:17:39" itemprop="dateCreated datePublished" datetime="2021-02-19T18:17:39+08:00">2021-02-19</time>
+              <time title="Created: 2021-02-25 12:12:57 / Modified: 15:29:26" itemprop="dateCreated datePublished" datetime="2021-02-25T12:12:57+08:00">2021-02-25</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-24 17:28:15" itemprop="dateModified" datetime="2021-02-24T17:28:15+08:00">2021-02-24</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
               </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC/" itemprop="url" rel="index"><span itemprop="name">軟體開發</span></a>
+                </span>
+            </span>
 
           
 
@@ -190,12 +196,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>本文章可以幫你<br>1.安裝與設定verdaccio<br>2.將verdaccio掛載到IIS<br>3.建立元件並發布到verdaccio<br>4.安裝元件並使用<br>5.把元件掛載到CI/CD Flow上<br>6.一些trouble shooting</p>
+          <p>本文章可以幫你<br>1.安裝與設定verdaccio<br>2.將verdaccio掛載到IIS<br>3.建立元件並發布到verdaccio<br>4.安裝元件並使用<br>5.把元件掛載到CI/CD Flow上<br>6.一些troubleshooting</p>
 <h2 id="安裝與設定verdaccio"><a href="#安裝與設定verdaccio" class="headerlink" title="安裝與設定verdaccio"></a>安裝與設定verdaccio</h2><p>安裝十分簡單</p>
-<h5 id="1-安裝verdaccio至globle"><a href="#1-安裝verdaccio至globle" class="headerlink" title="1.安裝verdaccio至globle"></a>1.安裝verdaccio至globle</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install verdaccio -g</span><br></pre></td></tr></table></figure>
-<h5 id="2-啟動verdaccio"><a href="#2-啟動verdaccio" class="headerlink" title="2.啟動verdaccio"></a>2.啟動verdaccio</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verdaccio</span><br></pre></td></tr></table></figure>
+<h3 id="安裝verdaccio至globle"><a href="#安裝verdaccio至globle" class="headerlink" title="安裝verdaccio至globle"></a>安裝verdaccio至globle</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install verdaccio -g</span><br></pre></td></tr></table></figure>
+<h3 id="啟動verdaccio"><a href="#啟動verdaccio" class="headerlink" title="啟動verdaccio"></a>啟動verdaccio</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ verdaccio</span><br></pre></td></tr></table></figure>
 <p>於瀏覽器網址列打下 <a target="_blank" rel="noopener" href="http://localhost:4873/">http://localhost:4873/</a> 即可見到以下畫面</p>
-<p><img src="/capture01.png"></p>
+<p><img src="/2021/02/25/Establish-Private-NPM/capture01.png"></p>
+<p>跟著畫面的步驟去 Login =&gt; Publish </p>
+<p>P.S 如果上傳的package size過大，出現以下錯誤訊息<br><img src="/2021/02/25/Establish-Private-NPM/capture09.png"><br>可於<br>C:\Users{username}\AppData\Roaming\verdaccio\config.yaml<br>加上<strong>max_body_size: 100mb</strong><br>C:\Users{username}.npmrc<br>加上<strong>max_body_size=100mb</strong></p>
+<h2 id="將verdaccio掛載到IIS"><a href="#將verdaccio掛載到IIS" class="headerlink" title="將verdaccio掛載到IIS"></a>將verdaccio掛載到IIS</h2><p>local測試完成後，試著將verdaccio掛成一個服務吧!!<br>因為筆者公司的server為windows base，因此試著將他掛到IIS上<br>官網有十分詳細<a target="_blank" rel="noopener" href="https://verdaccio.org/docs/en/iss-server">教學</a></p>
+<p>1.安裝iisnode<br>2.於安裝目錄執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<p>3.將網站掛到IIS上<br><img src="/2021/02/25/Establish-Private-NPM/capture02.png"><br>4.因需要讓verdaccio去讀寫網站資料夾，因次需要增加角色給予full control<br><img src="/2021/02/25/Establish-Private-NPM/capture03.png"><br>5.增加Hanlder Mappings for iisnode並設定Feature Permission<br><img src="/2021/02/25/Establish-Private-NPM/capture04.png"><br><img src="/2021/02/25/Establish-Private-NPM/capture05.png"></p>
+<p>完成後使用瀏覽器執行出現以下訊息，damnnnn!!!<br><img src="/2021/02/25/Establish-Private-NPM/capture06.png"></p>
+<p>發現還需要指定nodejs執行的路徑 =&gt; <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50244164/iisnode-module-is-unable-to-start-the-node-exe-process">issue</a><br><img src="/2021/02/25/Establish-Private-NPM/capture07.png"></p>
+<p>完成設置!</p>
+<h2 id="建立元件並發布到verdaccio"><a href="#建立元件並發布到verdaccio" class="headerlink" title="建立元件並發布到verdaccio"></a>建立元件並發布到verdaccio</h2><p>建立元件有幾個地方要注意<br>1.設置.npmignore，如果使用typescript的話，記得tsconfig.json一定要設定不然會造成路徑衝突<br>  <img src="/2021/02/25/Establish-Private-NPM/capture08.png"><br>2.因Private NPM沒有對外網路，因此選擇將package name加上scope並在.npmrc/.yarnrc設定不同registry<br>  <img src="/2021/02/25/Establish-Private-NPM/capture10.png"></p>
+<p>  .npmrc<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@leo:registry&#x3D;http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F;</span><br></pre></td></tr></table></figure><br>  .yarnrc<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;@leo:registry&quot; &quot;http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F;&quot;</span><br></pre></td></tr></table></figure><br>  讓npm install或yarn add自動使用private NPM</p>
 
       
     </div>
@@ -220,11 +237,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Leo Lee">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="A Software Engineer && A Basketball Fanatic && An Alcoholic">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="">
+      <meta itemprop="name" content="小小書僮，可笑可笑">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -337,7 +354,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Leo Lee</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">A Software Engineer && A Basketball Fanatic && An Alcoholic</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -347,6 +364,14 @@
           <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
       </div>
   </nav>
 </div>
