@@ -171,10 +171,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-02-25 12:12:57 / Modified: 16:29:06" itemprop="dateCreated datePublished" datetime="2021-02-25T12:12:57+08:00">2021-02-25</time>
+              <time title="Created: 2021-02-25 12:12:57" itemprop="dateCreated datePublished" datetime="2021-02-25T12:12:57+08:00">2021-02-25</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-04-07 11:27:43" itemprop="dateModified" datetime="2021-04-07T11:27:43+08:00">2021-04-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -211,7 +217,8 @@
 <h2 id="建立元件並發布到verdaccio"><a href="#建立元件並發布到verdaccio" class="headerlink" title="建立元件並發布到verdaccio"></a>建立元件並發布到verdaccio</h2><p>建立元件有幾個地方要注意<br>1.設置.npmignore，如果使用typescript的話，記得tsconfig.json一定要設定不然會造成路徑衝突<br>  <img src="/2021/02/25/Establish-Private-NPM/capture08.png"><br>2.因筆者建立的Private NPM沒有對外網路，因此選擇將package name加上scope並在.npmrc/.yarnrc設定不同registry<br>  <img src="/2021/02/25/Establish-Private-NPM/capture10.png"></p>
 <p>  .npmrc<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@leo:registry&#x3D;http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F;</span><br></pre></td></tr></table></figure><br>  .yarnrc<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;@leo:registry&quot; &quot;http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F;&quot;</span><br></pre></td></tr></table></figure><br>  可以讓npm install或yarn add要安裝scope內的packages時自動使用private NPM</p>
 <h2 id="安裝元件並使用"><a href="#安裝元件並使用" class="headerlink" title="安裝元件並使用"></a>安裝元件並使用</h2><p>  1.安裝<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install @leo&#x2F;common -s</span><br></pre></td></tr></table></figure><br>  2.想要讓程式對應到基礎元件，因此調整了tsconfig.json的baseUrl<br>    <img src="/2021/02/25/Establish-Private-NPM/capture11.png"></p>
-<h2 id="把元件掛載到CI-CD-Flow上"><a href="#把元件掛載到CI-CD-Flow上" class="headerlink" title="把元件掛載到CI/CD Flow上"></a>把元件掛載到CI/CD Flow上</h2><p>  1.建立Build and Publish Job<br>  2.建立GitLab webhook，版控Merged自動trigger job</p>
+<h2 id="把元件掛載到CI-CD-Flow上"><a href="#把元件掛載到CI-CD-Flow上" class="headerlink" title="把元件掛載到CI/CD Flow上"></a>把元件掛載到CI/CD Flow上</h2><p>  1.建立Build and Publish Job，使用windows batch<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish --registry http:&#x2F;&#x2F;xx.xx.xx.xx:8089&#x2F; --always-auth false</span><br></pre></td></tr></table></figure><br>  2.建立版本自動遞增規則<br>  <img src="/2021/02/25/Establish-Private-NPM/capture12.png"><br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ IF NOT &quot;%version%&quot; &#x3D;&#x3D; &quot;none&quot; (</span><br><span class="line">$   git reset --hard</span><br><span class="line">$   npm version %version%</span><br><span class="line">$   git push &quot;origin&quot; --tags</span><br><span class="line">$   git push &quot;origin&quot; HEAD:master</span><br><span class="line">$ ) </span><br></pre></td></tr></table></figure><br>  3.建立GitLab webhook，版控Merged自動trigger job<br>  <img src="/2021/02/25/Establish-Private-NPM/capture13.png"></p>
+<p>  如此一來CI/CD Flow也完成，流程如下:<br>  =&gt; branch merge to master<br>  =&gt; auto trigger jenkins job<br>  =&gt; build package and publish to private NPM<br>  =&gt; version update and push tag to origin</p>
 
       
     </div>
