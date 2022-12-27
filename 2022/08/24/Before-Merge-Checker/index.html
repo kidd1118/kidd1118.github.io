@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文章可以幫你 GitLab Merge when pipleline succeeds設定 使用GitLab CI&#x2F;CD 使用ESLint&#x2F;StyleLint檢查程式碼  設定GitLab的Merge when pipeline succeeds&#x2F;啟動runners 官方文件可以參考 site1site2 GitLab設定的位置[Repo] &#x3D;&gt; Settings &#x3D;&gt; Genera">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用GitLab CI&#x2F;CD在Merge前做預先檢查">
+<meta property="og:url" content="http://example.com/2022/08/24/Before-Merge-Checker/index.html">
+<meta property="og:site_name" content="小小書僮，可笑可笑">
+<meta property="og:description" content="本文章可以幫你 GitLab Merge when pipleline succeeds設定 使用GitLab CI&#x2F;CD 使用ESLint&#x2F;StyleLint檢查程式碼  設定GitLab的Merge when pipeline succeeds&#x2F;啟動runners 官方文件可以參考 site1site2 GitLab設定的位置[Repo] &#x3D;&gt; Settings &#x3D;&gt; Genera">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture01.png">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture02.png">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture03.png">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture04.png">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture05.png">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture06.png">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture07.png">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture08.png">
+<meta property="og:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture09.png">
+<meta property="article:published_time" content="2022-08-24T09:54:59.000Z">
+<meta property="article:modified_time" content="2022-08-29T04:04:00.449Z">
+<meta property="article:author" content="Leo Lee">
+<meta property="article:tag" content="GitLab, CI&#x2F;CD, ESLint, StyleLint">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/08/24/Before-Merge-Checker/capture01.png">
+
+<link rel="canonical" href="http://example.com/2022/08/24/Before-Merge-Checker/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>使用GitLab CI/CD在Merge前做預先檢查 | 小小書僮，可笑可笑</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小小書僮，可笑可笑</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">murmrur</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/24/Before-Merge-Checker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Leo Lee">
+      <meta itemprop="description" content="A Software Engineer && A Basketball Fanatic && An Alcoholic">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小書僮，可笑可笑">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用GitLab CI/CD在Merge前做預先檢查
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-08-24 17:54:59" itemprop="dateCreated datePublished" datetime="2022-08-24T17:54:59+08:00">2022-08-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-08-29 12:04:00" itemprop="dateModified" datetime="2022-08-29T12:04:00+08:00">2022-08-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="本文章可以幫你"><a href="#本文章可以幫你" class="headerlink" title="本文章可以幫你"></a>本文章可以幫你</h2><ol>
+<li>GitLab Merge when pipleline succeeds設定</li>
+<li>使用GitLab CI/CD</li>
+<li>使用ESLint/StyleLint檢查程式碼</li>
+</ol>
+<h2 id="設定GitLab的Merge-when-pipeline-succeeds-啟動runners"><a href="#設定GitLab的Merge-when-pipeline-succeeds-啟動runners" class="headerlink" title="設定GitLab的Merge when pipeline succeeds/啟動runners"></a>設定GitLab的Merge when pipeline succeeds/啟動runners</h2><ol>
+<li>官方文件可以參考 <a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html">site1</a><br><a target="_blank" rel="noopener" href="https://gitlab.ict888.net/help/ci/merge_request_pipelines/index.md#pipelines-for-merge-requests">site2</a></li>
+<li>GitLab設定的位置[Repo] =&gt; Settings =&gt; General =&gt; Merge requests<br> <img src="/2022/08/24/Before-Merge-Checker/capture01.png"></li>
+<li>記得啟動runners[Repo] =&gt; Settings =&gt; CI/CD =&gt; Runners<br> <img src="/2022/08/24/Before-Merge-Checker/capture02.png"></li>
+</ol>
+<h2 id="在專案裡面新增GitLab-CI-comfig"><a href="#在專案裡面新增GitLab-CI-comfig" class="headerlink" title="在專案裡面新增GitLab CI comfig"></a>在專案裡面新增GitLab CI comfig</h2><ol>
+<li><p>新增.gitlab-ci.yml並設定其內容</p>
+</li>
+<li><p>設定workflow讓pipeline只在Merge Request Contenx建立的時候才執行</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">workflow:</span></span><br><span class="line">    <span class="attr">rules:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">if:</span> <span class="string">$CI_MERGE_REQUEST_ID</span> <span class="comment"># Execute jobs in merge request context</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">if:</span> <span class="string">$CI_COMMIT_BRANCH</span> <span class="string">==</span> <span class="string">&#x27;dev&#x27;</span> <span class="comment"># Execute jobs when a new commit is pushed to dev branch</span></span><br><span class="line"></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">prepare</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">check</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="attr">cache:</span></span><br><span class="line">  <span class="attr">paths:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">node_modules/</span></span><br><span class="line"></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">prepare</span></span><br><span class="line"><span class="comment">#   only: =&gt; going to be deprecated，根據gitloab 11.x doc，即將被拋棄</span></span><br><span class="line"><span class="comment">#     - dev</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eslint:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">check</span></span><br><span class="line"><span class="comment">#   only: =&gt; going to be deprecated，根據gitloab 11.x doc，即將被拋棄</span></span><br><span class="line"><span class="comment">#     - dev</span></span><br><span class="line">  <span class="attr">dependencies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">prepare</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">eslint</span> <span class="string">src/*.ts</span></span><br><span class="line"></span><br><span class="line"><span class="attr">stylelint:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">check</span></span><br><span class="line"><span class="comment">#   only: =&gt; going to be deprecated，根據gitloab 11.x doc，即將被拋棄</span></span><br><span class="line"><span class="comment">#     - dev</span></span><br><span class="line">  <span class="attr">dependencies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">prepare</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">stylelint</span> <span class="string">src/css/**/*.scss</span></span><br><span class="line"></span><br><span class="line"><span class="attr">build:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line"><span class="comment">#   only: =&gt; going to be deprecated，根據gitloab 11.x doc，即將被拋棄</span></span><br><span class="line"><span class="comment">#     - dev</span></span><br><span class="line">  <span class="attr">dependencies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">prepare</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">build</span></span><br><span class="line"></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="attr">script:</span> <span class="string">./deploy</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">if:</span> <span class="string">$CI_COMMIT_BRANCH</span> <span class="string">==</span> <span class="string">&#x27;dev&#x27;</span> <span class="comment"># Execute jobs when a new commit is pushed to dev branch</span></span><br></pre></td></tr></table></figure>
+<h2 id="設定eslint-stylelint"><a href="#設定eslint-stylelint" class="headerlink" title="設定eslint/stylelint"></a>設定eslint/stylelint</h2></li>
+<li><p>安裝eslint與設定</p>
+<ul>
+<li>install packages<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install eslint eslint-config-prettier eslint-plugin-prettier @typescript-eslint&#x2F;eslint-plugin @typescript-eslint&#x2F;parser</span><br></pre></td></tr></table></figure></li>
+<li>.eslintrc.js<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    env: &#123;</span><br><span class="line">        browser: <span class="literal">true</span>,</span><br><span class="line">        es6: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">extends</span>: [</span><br><span class="line">        <span class="comment">// Uses the recommended rules from the @typescript-eslint/eslint-plugin</span></span><br><span class="line">        <span class="string">&quot;plugin:@typescript-eslint/recommended&quot;</span>,</span><br><span class="line">        <span class="comment">// Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier</span></span><br><span class="line">        <span class="string">&quot;prettier/@typescript-eslint&quot;</span>,</span><br><span class="line">        <span class="comment">// Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors.</span></span><br><span class="line">        <span class="comment">// Make sure this is always the last configuration in the extends array.</span></span><br><span class="line">        <span class="string">&quot;plugin:prettier/recommended&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    globals: &#123;</span><br><span class="line">        Atomics: <span class="string">&quot;readonly&quot;</span>,</span><br><span class="line">        SharedArrayBuffer: <span class="string">&quot;readonly&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    parser: <span class="string">&quot;@typescript-eslint/parser&quot;</span>,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">2018</span>,</span><br><span class="line">        sourceType: <span class="string">&quot;module&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="string">&quot;@typescript-eslint&quot;</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">&quot;prettier/prettier&quot;</span>: [<span class="string">&quot;error&quot;</span>],</span><br><span class="line">        <span class="string">&quot;@typescript-eslint/no-explicit-any&quot;</span>: <span class="string">&quot;off&quot;</span>,</span><br><span class="line">        <span class="string">&quot;@typescript-eslint/interface-name-prefix&quot;</span>: <span class="string">&quot;off&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eslint src&#x2F;js&#x2F;**&#x2F;*.ts --fix</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>安裝stylelint與設定</p>
+<ul>
+<li>install packages<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install stylelint stylelint-config-prettier stylelint-config-sass-guidelines stylelint-config-standard stylelint-order stylelint-scss</span><br></pre></td></tr></table></figure></li>
+<li>.stylelintrc.js<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="keyword">extends</span>: [<span class="string">&quot;stylelint-config-standard&quot;</span>, <span class="string">&quot;stylelint-config-sass-guidelines&quot;</span>],</span><br><span class="line">    rules: &#123;</span><br><span class="line">        indentation: <span class="number">4</span>,</span><br><span class="line">        <span class="string">&quot;selector-max-id&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;max-nesting-depth&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;function-url-quotes&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;selector-class-pattern&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;selector-max-compound-selectors&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;selector-max-compound-selectors&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;selector-max-compound-selectors&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;selector-no-qualifying-type&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;no-descending-specificity&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;declaration-block-no-duplicate-properties&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;function-linear-gradient-no-nonstandard-direction&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;selector-id-pattern&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;font-family-no-missing-generic-family-keyword&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;function-no-unknown&quot;</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="string">&quot;max-line-length&quot;</span>: <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stylelint src&#x2F;css&#x2F;**&#x2F;*.scss --fix</span><br></pre></td></tr></table></figure>
+<h2 id="前置作業設定好了，試試看吧"><a href="#前置作業設定好了，試試看吧" class="headerlink" title="前置作業設定好了，試試看吧!"></a>前置作業設定好了，試試看吧!</h2></li>
+</ul>
+</li>
+<li><p>執行後，可以從[Repo] =&gt; CI/CD =&gt; Piplelines/Jobs去看結果<br> <img src="/2022/08/24/Before-Merge-Checker/capture03.png"><br> <img src="/2022/08/24/Before-Merge-Checker/capture04.png"> </p>
+</li>
+<li><p>設定eslint error level去測試錯誤結果<br><img src="/2022/08/24/Before-Merge-Checker/capture05.png"><br>commit後pipeline因為eslint error跑失敗<br><img src="/2022/08/24/Before-Merge-Checker/capture06.png"><br>開了merge request會無法merge，需要先修正pipeline的錯誤<br><img src="/2022/08/24/Before-Merge-Checker/capture07.png"> </p>
+</li>
+</ol>
+<h2 id="Enhancement-修改為當workflow成立時才可以Merge"><a href="#Enhancement-修改為當workflow成立時才可以Merge" class="headerlink" title="[Enhancement]修改為當workflow成立時才可以Merge"></a>[Enhancement]修改為當workflow成立時才可以Merge</h2><ol>
+<li>將.gitlab ci config加上workflow rules<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">workflow:</span></span><br><span class="line">    <span class="attr">rules:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">if:</span> <span class="string">$CI_MERGE_REQUEST_ID</span> <span class="comment"># Execute jobs in merge request context</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">if:</span> <span class="string">$CI_COMMIT_BRANCH</span> <span class="string">==</span> <span class="string">&#x27;dev&#x27;</span> <span class="comment"># Execute jobs when a new commit is pushed to dev branch</span></span><br></pre></td></tr></table></figure></li>
+<li>如此一來當在gitlab上開Merge request時，會自動跑CI/CD，成功後才可以去Merge<br><img src="/2022/08/24/Before-Merge-Checker/capture08.png"><br><img src="/2022/08/24/Before-Merge-Checker/capture09.png"></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GitLab-CI-CD-ESLint-StyleLint/" rel="tag"># GitLab, CI/CD, ESLint, StyleLint</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/24/Gulp3-to-Gulp4/" rel="prev" title="將 Gulp3 升級至 Gulp4 之路">
+      <i class="fa fa-chevron-left"></i> 將 Gulp3 升級至 Gulp4 之路
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E7%AB%A0%E5%8F%AF%E4%BB%A5%E5%B9%AB%E4%BD%A0"><span class="nav-number">1.</span> <span class="nav-text">本文章可以幫你</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9AGitLab%E7%9A%84Merge-when-pipeline-succeeds-%E5%95%9F%E5%8B%95runners"><span class="nav-number">2.</span> <span class="nav-text">設定GitLab的Merge when pipeline succeeds&#x2F;啟動runners</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%B0%88%E6%A1%88%E8%A3%A1%E9%9D%A2%E6%96%B0%E5%A2%9EGitLab-CI-comfig"><span class="nav-number">3.</span> <span class="nav-text">在專案裡面新增GitLab CI comfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9Aeslint-stylelint"><span class="nav-number">4.</span> <span class="nav-text">設定eslint&#x2F;stylelint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD%E8%A8%AD%E5%AE%9A%E5%A5%BD%E4%BA%86%EF%BC%8C%E8%A9%A6%E8%A9%A6%E7%9C%8B%E5%90%A7"><span class="nav-number">5.</span> <span class="nav-text">前置作業設定好了，試試看吧!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enhancement-%E4%BF%AE%E6%94%B9%E7%82%BA%E7%95%B6workflow%E6%88%90%E7%AB%8B%E6%99%82%E6%89%8D%E5%8F%AF%E4%BB%A5Merge"><span class="nav-number">6.</span> <span class="nav-text">[Enhancement]修改為當workflow成立時才可以Merge</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Leo Lee</p>
+  <div class="site-description" itemprop="description">A Software Engineer && A Basketball Fanatic && An Alcoholic</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo Lee</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
