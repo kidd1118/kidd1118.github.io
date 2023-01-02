@@ -49,6 +49,7 @@ tags: Careers, Interview
     - history 模式不會有 #，跳轉時會發出 HTTP 請求。限制是瀏覽器兼容性較差，以及後端需要自行設定，避免 404 問題。
 
 11. vue-router 的 navigation guards 與其 hook
+
     - 全域
       - beforeEach
       - beforeResolve
@@ -59,6 +60,21 @@ tags: Careers, Interview
       - beforeRouteEnter
       - beforeRouteUpdate
       - beforeRouteLeave
+
+12. Vue Lift Cycle
+
+    - beforeCreate
+    - created
+    - beforeMount
+    - mounted
+    - beforeUpdate
+    - updated
+    - beforeUnmount (3.x)
+    - unmounted (3.x)
+
+13. Vuex ?
+
+14. Vue two-way binding
 
 # Algorithms
 
