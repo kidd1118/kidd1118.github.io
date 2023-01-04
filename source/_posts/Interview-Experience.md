@@ -163,3 +163,36 @@ while (start_a < end_a) {
 ```
 
 Time complexity: O(n / 2 \* m), Space complexity: O(0)
+
+## LeetCode - 763. Partition Labels
+
+- my answer : 利用兩個指標從前後同時尋找配對字串
+
+```javascript
+var partitionLabels = function (s) {
+  let result = [];
+  let temp = {};
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    if (!temp[char]) {
+      temp[char] = { start: i, end: i };
+    }
+    if (i > temp[char].end) {
+      temp[char].end = i;
+    }
+  }
+  let max = -1;
+  let start = 0;
+  for (let i in temp) {
+    if (temp[i].start > max && max !== -1) {
+      result.push(max - start + 1);
+      start = temp[i].start;
+    }
+    max = Math.max(max, temp[i].end);
+  }
+  result.push(max - start + 1);
+  return result;
+};
+```
+
+Time complexity: O(n + n), Space complexity: O(n)
