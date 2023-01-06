@@ -166,9 +166,13 @@ Time complexity: O(n / 2 \* m), Space complexity: O(0)
 
 ## LeetCode - 763. Partition Labels
 
-- my answer : 利用兩個指標從前後同時尋找配對字串
+- my answer : 儲存字元的起始與結束點，看各字元是否有接續
 
 ```javascript
+/**
+ * @param {string} s
+ * @return {number[]}
+ */
 var partitionLabels = function (s) {
   let result = [];
   let temp = {};
@@ -196,3 +200,90 @@ var partitionLabels = function (s) {
 ```
 
 Time complexity: O(n + n), Space complexity: O(n)
+
+## LeetCode - 22. Generate Parentheses
+
+- my answer : 使用遞迴去組成
+
+```javascript
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function (n) {
+  let result = [];
+  const dp = (str, openNum, closeNum) => {
+    if (openNum < closeNum) return;
+    if (openNum == n) {
+      for (let i = str.length; i < n * 2; i++) str += ")";
+      result.push(str);
+      return str;
+    }
+    dp(str + "(", openNum + 1, closeNum);
+    dp(str + ")", openNum, closeNum + 1);
+  };
+  dp("(", 1, 0);
+  return result;
+};
+```
+
+Time complexity: O(2^n), Space complexity: O(n)
+
+## counting character
+
+- my answer : XXXX
+
+```javascript
+/*
+"H2O" => {
+  "H": 2,
+  "O": 1
+}
+
+"C2H5OH" => {
+  "C": 2,
+  "H": 6,
+  "O": 1
+}
+
+"COOH" => {"C": 1, "O": 2, "H": 1}
+
+// “Mg2C2H” => {“Mg”: 2, “C”: 2, “H”: 1}
+*/
+
+// Iterate through each element till end of string
+// 1. find char (isNaN) to store to parameter
+// 2. couter 1 to this char
+// 3. if the next char is number, store to prevValue and combine to string;
+// 4. if loop to next char, store previous value to previous element
+// 5. loop to end
+function stringToObject(input) {
+  let temp = {};
+  let prev = "";
+  let val = "";
+  for (let i = 0; i < input.length; i++) {
+    const curr = input[i];
+    if (isNaN(curr)) {
+      //is char
+      temp[curr] = temp[curr] ? Number(temp[curr]) + 1 : 1;
+      prev = curr;
+      val = "";
+    } else {
+      //is number
+      if (isNaN(val)) {
+        val = curr;
+      } else {
+        val += curr;
+      }
+      temp[prev] = Number(val);
+    }
+  }
+  return temp;
+}
+
+console.log(stringToObject("H2O"));
+console.log(stringToObject("C2H5OH"));
+console.log(stringToObject("COOH"));
+console.log(stringToObject("C11O10OH"));
+// console.log(stringToObject("Mg2C2H"));
+```
