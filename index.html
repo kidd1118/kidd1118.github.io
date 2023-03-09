@@ -179,7 +179,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-28 02:08:38" itemprop="dateModified" datetime="2022-12-28T02:08:38+08:00">2022-12-28</time>
+                <time title="Modified: 2022-12-28 11:06:13" itemprop="dateModified" datetime="2022-12-28T11:06:13+08:00">2022-12-28</time>
               </span>
 
           
@@ -257,161 +257,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/05/Interview-Experience/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Leo Lee">
-      <meta itemprop="description" content="A Software Engineer && A Basketball Fanatic && An Alcoholic">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小小書僮，可笑可笑">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/12/05/Interview-Experience/" class="post-title-link" itemprop="url">面試經驗</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-12-05 14:44:26" itemprop="dateCreated datePublished" datetime="2022-12-05T14:44:26+08:00">2022-12-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-28 02:11:10" itemprop="dateModified" datetime="2022-12-28T02:11:10+08:00">2022-12-28</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="前端面試考題"><a href="#前端面試考題" class="headerlink" title="前端面試考題"></a>前端面試考題</h1><ol>
-<li><p>列舉 web storge 與特性，適合的使用時機</p>
-<ul>
-<li>cache</li>
-<li>local storge</li>
-<li>session storge</li>
-</ul>
-</li>
-<li><p>JS event quene, microtask and macrotask</p>
-<ul>
-<li>micro : promise, async</li>
-<li>macro : web api, settimeout, setinterval</li>
-</ul>
-</li>
-<li><p>CROS and prevent</p>
-<ul>
-<li>Set Http header</li>
-<li>JSONP</li>
-<li>Proxy</li>
-<li>Post Message (iframe)</li>
-</ul>
-</li>
-<li><p>Browser render pipeline</p>
-<ul>
-<li>Parse HTML HTML document parsed and the DOM tree as we know it has been built.</li>
-<li>Recalculate Styles All kind of stylesheets are parsed. Render tree is built. Render tree contains DOM tree nodes that are going to be displayed. Thus, head tag is excluded as well as style and script. Elements with CSS display property set to none are also ignored. On the other hand, pseudo elements, such as :after and :before, are included. Moreover, every text line becomes a single block.</li>
-<li>Layout (also called reflow) A collection of blocks generated from the render tree. All the block dimensions, that are dependent on each other, are calculated.</li>
-<li>Paint Rasterization of the blocks and texts. Images decoding and resize if necessary also happen here.</li>
-<li>Layer Composition Composition of the visual layers that can be processed and painted independently.</li>
-</ul>
-</li>
-<li><p>Hoasting</p>
-</li>
-<li><p>Scope for this</p>
-</li>
-<li><p>Filter duplicate value in array</p>
-<ul>
-<li>Using Array Filter</li>
-<li>Using Set and Destructuring</li>
-<li>Using Object to store</li>
-</ul>
-</li>
-<li><p>Destructuring</p>
-</li>
-<li><p>Spread/Rest Operator</p>
-</li>
-<li><p>vue-router 的 hash 和 history mode</p>
-<ul>
-<li>hash 模式下的 URL 會帶有 #，跳轉時不會發出 HTTP 請求。限制是不利 SEO，以及會與錨點功能有衝突等。</li>
-<li>history 模式不會有 #，跳轉時會發出 HTTP 請求。限制是瀏覽器兼容性較差，以及後端需要自行設定，避免 404 問題。</li>
-</ul>
-</li>
-<li><p>vue-router 的 navigation guards 與其 hook</p>
-<ul>
-<li>全域<ul>
-<li>beforeEach</li>
-<li>beforeResolve</li>
-<li>afterEach</li>
-</ul>
-</li>
-<li>路由<ul>
-<li>beforeEnter</li>
-</ul>
-</li>
-<li>元件<ul>
-<li>beforeRouteEnter</li>
-<li>beforeRouteUpdate</li>
-<li>beforeRouteLeave</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="Algorithms"><a href="#Algorithms" class="headerlink" title="Algorithms"></a>Algorithms</h1><h2 id="LeetCode-136-Single-Number"><a href="#LeetCode-136-Single-Number" class="headerlink" title="LeetCode - 136. Single Number"></a>LeetCode - 136. Single Number</h2><ul>
-<li>my answer</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &#123;<span class="type">number[]</span>&#125; <span class="variable">nums</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="type">number</span>&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> singleNumber = <span class="keyword">function</span> (<span class="params">nums</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> nums.<span class="title function_">filter</span>(<span class="function">(<span class="params">item, index, arr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> arr.<span class="title function_">indexOf</span>(item) == index &amp;&amp; arr.<span class="title function_">lastIndexOf</span>(item) == index;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>Time complexity: O(n), Space complexity: O(0)</p>
-<ul>
-<li>perfact answer (使用互斥 ^)</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &#123;<span class="type">number[]</span>&#125; <span class="variable">nums</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="type">number</span>&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> singleNumber = <span class="keyword">function</span> (<span class="params">nums</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> result = nums[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; nums.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    result ^= nums[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>Time complexity: O(n-1), Space complexity: O(0)</p>
-<h2 id="string-match"><a href="#string-match" class="headerlink" title="string match"></a>string match</h2><ul>
-<li>my answer : 利用兩個指標從前後同時尋找配對字串</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">&quot;RTGDAFT&quot;</span>,</span><br><span class="line">  b = <span class="string">&quot;GDA&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> start_a = <span class="number">0</span>,</span><br><span class="line">  end_a = a.<span class="property">length</span> - <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> start_b = <span class="number">0</span>,</span><br><span class="line">  end_b = b.<span class="property">length</span> - <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> match = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">while</span> (start_a &lt; end_a) &#123;</span><br><span class="line">  <span class="keyword">if</span> (a[start_a] == b[start_b]) &#123;</span><br><span class="line">    <span class="comment">// match = a[start_a];</span></span><br><span class="line">    match = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span> (start_b &lt; end_b) &#123;</span><br><span class="line">      start_a++;</span><br><span class="line">      start_b++;</span><br><span class="line">      <span class="keyword">if</span> (a[start_a] != b[start_b]) &#123;</span><br><span class="line">        match = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// match = match + a[start_a];</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (match) <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (a[end_a] == b[end_b]) &#123;</span><br><span class="line">    <span class="comment">// match = a[end_a];</span></span><br><span class="line">    match = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span> (start_b &lt; end_b) &#123;</span><br><span class="line">      end_a--;</span><br><span class="line">      end_b--;</span><br><span class="line">      <span class="keyword">if</span> (a[end_a] != b[end_b]) &#123;</span><br><span class="line">        match = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// match = a[end_a] + match;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (match) <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  start_a++;</span><br><span class="line">  end_a--;</span><br><span class="line">  start_b = <span class="number">0</span>;</span><br><span class="line">  end_b = b.<span class="property">length</span> - <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Time complexity: O(n / 2 * m), Space complexity: O(0)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/17/Xeunn-Traveling/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -443,7 +288,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-28 02:08:40" itemprop="dateModified" datetime="2022-12-28T02:08:40+08:00">2022-12-28</time>
+                <time title="Modified: 2022-12-28 11:06:13" itemprop="dateModified" datetime="2022-12-28T11:06:13+08:00">2022-12-28</time>
               </span>
 
           
@@ -516,7 +361,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-28 02:07:20" itemprop="dateModified" datetime="2022-12-28T02:07:20+08:00">2022-12-28</time>
+                <time title="Modified: 2022-12-28 11:06:13" itemprop="dateModified" datetime="2022-12-28T11:06:13+08:00">2022-12-28</time>
               </span>
 
           
@@ -620,7 +465,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-28 02:07:23" itemprop="dateModified" datetime="2022-12-28T02:07:23+08:00">2022-12-28</time>
+                <time title="Modified: 2022-12-28 11:06:13" itemprop="dateModified" datetime="2022-12-28T11:06:13+08:00">2022-12-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -729,7 +574,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-28 02:07:25" itemprop="dateModified" datetime="2022-12-28T02:07:25+08:00">2022-12-28</time>
+                <time title="Modified: 2022-12-28 11:06:13" itemprop="dateModified" datetime="2022-12-28T11:06:13+08:00">2022-12-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -847,7 +692,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-12-28 02:07:22" itemprop="dateModified" datetime="2022-12-28T02:07:22+08:00">2022-12-28</time>
+                <time title="Modified: 2022-12-28 11:06:13" itemprop="dateModified" datetime="2022-12-28T11:06:13+08:00">2022-12-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -975,7 +820,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -984,7 +829,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1011,7 +856,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
