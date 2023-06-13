@@ -287,3 +287,33 @@ console.log(stringToObject("COOH"));
 console.log(stringToObject("C11O10OH"));
 // console.log(stringToObject("Mg2C2H"));
 ```
+
+## LeetCode - 22. Generate Parentheses
+
+- my answer : 使用遞迴去組成
+
+```javascript
+const m = {
+  a: ["e"],
+  e: ["a", "i"],
+  i: ["a", "e", "o", "u"],
+  o: ["i", "u"],
+  u: ["a"],
+};
+let result = ["a", "e", "i", "o", "u"],
+  temp = [];
+for (let i = 1; i < 4; i++) {
+  result.forEach((item) => {
+    const ms = m[item];
+    if (ms && ms.length) {
+      temp = [...temp, ...ms];
+    }
+  });
+  result = temp.length ? [...temp] : result;
+  temp = [];
+}
+console.log(result);
+console.log(result.length);
+```
+
+Time complexity: O(n\*n), Space complexity: O(n)
