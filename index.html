@@ -167,6 +167,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/10/13/Cocos-Trouble-Shooting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Leo Lee">
+      <meta itemprop="description" content="A Software Engineer && A Basketball Fanatic && An Alcoholic">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小書僮，可笑可笑">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/10/13/Cocos-Trouble-Shooting/" class="post-title-link" itemprop="url">各類cocos creator 3.x版問題與成因</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-10-13 14:12:57 / Modified: 14:26:43" itemprop="dateCreated datePublished" datetime="2025-10-13T14:12:57+08:00">2025-10-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC/" itemprop="url" rel="index"><span itemprop="name">軟體開發</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="本文章可以幫你"><a href="#本文章可以幫你" class="headerlink" title="本文章可以幫你"></a>本文章可以幫你</h2><ol>
+<li>了解cocos 3.x版引擎部分問題</li>
+<li>解決問題與其成因</li>
+</ol>
+<h2 id="同層級bundle使用到同素材可能因引擎打包順序不一造成問題"><a href="#同層級bundle使用到同素材可能因引擎打包順序不一造成問題" class="headerlink" title="同層級bundle使用到同素材可能因引擎打包順序不一造成問題"></a>同層級bundle使用到同素材可能因引擎打包順序不一造成問題</h2><h3 id="Encountering"><a href="#Encountering" class="headerlink" title="Encountering"></a>Encountering</h3><ul>
+<li>bundle A與bundle B priority 都是2, bundle B有使用到某素材且該素材放置於bundle B內，但bundle !也有使用到該素材</li>
+</ul>
+<h3 id="Finding"><a href="#Finding" class="headerlink" title="Finding"></a>Finding</h3><ul>
+<li>打包時該素材被打包到bundle A內，需要有bundle B才能使用</li>
+<li>打包時會依據bundle的priority再看名稱順序，bundle A / B priority 都是2但字母 “A” 大於 “B”，所以素材會先被包在bundle A內</li>
+</ul>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>目前想到三種方法</p>
+<ul>
+<li>把bundle A的priority降低</li>
+<li>將bundle A / B都有用到的素材放置priority更高的bundle</li>
+<li>改bundle Name，把bundle UI的名稱層級往上提</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/27/React-Next-Mysql-In-Docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1033,7 +1117,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1042,7 +1126,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1069,7 +1153,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
