@@ -167,6 +167,192 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/11/24/Cocos-Convention/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Leo Lee">
+      <meta itemprop="description" content="A Software Engineer && A Basketball Fanatic && An Alcoholic">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小書僮，可笑可笑">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/11/24/Cocos-Convention/" class="post-title-link" itemprop="url">Cocos Creator 3.x 開發規範 (Convention)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2026-11-24 10:00:00 / Modified: 16:29:20" itemprop="dateCreated datePublished" datetime="2026-11-24T10:00:00+08:00">2026-11-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC/" itemprop="url" rel="index"><span itemprop="name">軟體開發</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="本文章可以幫你"><a href="#本文章可以幫你" class="headerlink" title="本文章可以幫你"></a>本文章可以幫你</h2><ol>
+<li>了解 Cocos Creator 3.x 團隊開發的基本規範</li>
+<li>統一命名、Log、Git commit 與開發流程</li>
+<li>作為 Code Review 的檢查依據</li>
+</ol>
+<h2 id="Basic-Convention"><a href="#Basic-Convention" class="headerlink" title="Basic Convention"></a>Basic Convention</h2><ol>
+<li><p>Cocos Creator 3.8.3</p>
+</li>
+<li><p>TypeScript only (Type &amp; Object-Oriented)</p>
+</li>
+<li><p>SOLID / DRY / KISS</p>
+</li>
+<li><p>appropriate design patterns are encouraged</p>
+</li>
+<li><p>“coder-oriented” mode, most things will be done by code, Cocos Creator takes minimal job</p>
+</li>
+<li><p>using eslint and prettier</p>
+</li>
+<li><p>naming rule</p>
+<ul>
+<li><code>No Abbreviated / Ambiguous Naming</code>, <code>id</code>, <code>msg</code>, <code>init</code> are accepted</li>
+<li>typescript variable, typescript method using camel case <code>testName</code></li>
+<li>class using pascal case <code>TestName</code></li>
+<li>interface using “I” as a prefix <code>ITestName</code></li>
+<li>enum members using UPPER_CASE</li>
+<li>image file name using snake case <code>test_name</code></li>
+<li>folder name using kebab case <code>test-name</code></li>
+</ul>
+</li>
+<li><p>line break using LF (<code>\n</code>), NOT CRLF (<code>\r\n</code>)</p>
+</li>
+<li><p>Log</p>
+<ul>
+<li><p>log level</p>
+<ul>
+<li><code>log</code> : show information.</li>
+<li><code>warn</code> : errors that will <code>NOT</code> cause the system to break down.</li>
+<li><code>error</code> : errors that will cause the system to break down, user can not continue.</li>
+</ul>
+</li>
+<li><p>using <code>[className]</code> as title</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">log</span>(<span class="string">`[PlatformWeb] deviceId = <span class="subst">$&#123;<span class="variable language_">this</span>.deviceId&#125;</span>`</span>);</span><br><span class="line"><span class="title function_">log</span>(<span class="string">`[WebSocketWrapper] <span class="subst">$&#123;<span class="variable language_">this</span>.host&#125;</span>: new socket`</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>group cocos lifecycle, private, protected, public methods (using <code>#region</code>)</p>
+</li>
+<li><p>order by <code>import</code> first, then <code>const</code></p>
+</li>
+</ol>
+<h2 id="Cocos-Convention"><a href="#Cocos-Convention" class="headerlink" title="Cocos Convention"></a>Cocos Convention</h2><ul>
+<li>ESM first, not <code>export default class</code> (CommonJS)，cocos 3.x 版推崇 ESM，或許之後會支援 tree shaking</li>
+<li>binding events in code (on/off)，綁定在 cocos creator 的事件太隱含，對於 trace code 時較麻煩</li>
+<li>clarify Event Type, <code>button.on(Button.EventType.CLICK, ...)</code></li>
+<li>get child (dynamic render) or add reference (<code>@property</code>) for node</li>
+<li><code>getComponent(ClassName)</code> not <code>getComponent(&#39;string&#39;)</code>，避免更名的 side effect</li>
+<li>component class script 在 inspector 中的順序放在最後</li>
+<li>typescript 使用 cocos template 建立</li>
+<li>creator 上數值盡量不要使用浮點數，一般浮點數效能較不好</li>
+<li>node 命名：一般使用小駝峰，掛有 class script 的使用大駝峰，以「元件 + 類型」命名，ex: <code>userAmountLabel</code>, <code>userAmountContainer</code></li>
+<li>避免濫用 Widget、Layout，過多位置計算有效能疑慮</li>
+<li>避免過多的層級，Label 類元件可層級攤平，可以有效降低 drawcall，例如 <code>userNameLabel</code>、<code>userAmountLabel</code> 可直接放在同一層 Node</li>
+<li>保持 prefab 修改最小單元化，可盡量避免 prefab 衝突</li>
+<li>使用 table inject node 只封裝需要的元件，可減少遞迴次數</li>
+<li>大圖或需要動態載入的圖檔，不需加入合圖內，不然一律會被載下來</li>
+<li>spine 圖檔或設定為不需合圖的圖檔，需要另外開啟「壓縮紋理」</li>
+</ul>
+<h2 id="Code-Review-Key-Point"><a href="#Code-Review-Key-Point" class="headerlink" title="Code Review Key Point"></a>Code Review Key Point</h2><ul>
+<li>Bugs and Side Effect</li>
+<li>可維護性、可讀性</li>
+<li>Coding Style</li>
+<li>設計要點<ul>
+<li>設計保持簡單，避免 over design</li>
+<li>元件需抽離業務邏輯</li>
+<li>清晰各類功能職責</li>
+<li>元件抽離 base</li>
+</ul>
+</li>
+</ul>
+<h2 id="Code-Template"><a href="#Code-Template" class="headerlink" title="Code Template"></a>Code Template</h2><ul>
+<li>將團隊的 ts template 取代以下路徑的檔案，之後在 Creator 新增 TypeScript 即會套用：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Cocos/Creator/3.8.3/CocosCreator.app/Contents/Resources/resources/3d/engine/editor/assets/default_file_content/typescript/ts</span><br></pre></td></tr></table></figure>
+
+<h2 id="TypeScript-Style-Guidelines"><a href="#TypeScript-Style-Guidelines" class="headerlink" title="TypeScript Style Guidelines"></a>TypeScript Style Guidelines</h2><ol>
+<li>major reference to <a target="_blank" rel="noopener" href="https://google.github.io/styleguide/tsguide.html">Google TypeScript Style Guide</a></li>
+<li>minor reference to <a target="_blank" rel="noopener" href="https://docs.cocos.com/creator/3.8/manual/zh/scripting/reference/coding-standards.html">Cocos 官方規範</a></li>
+</ol>
+<h2 id="Commit-Rule-amp-Git-Branch-Grouping"><a href="#Commit-Rule-amp-Git-Branch-Grouping" class="headerlink" title="Commit Rule &amp; Git Branch Grouping"></a>Commit Rule &amp; Git Branch Grouping</h2><ul>
+<li><code>feat</code>: new feature or change request</li>
+<li><code>fix</code>: bug fixed</li>
+<li><code>docs</code>: document or remark</li>
+<li><code>style</code>: coding style (no side effect)</li>
+<li><code>refactor</code>: refactoring or structure</li>
+<li><code>perf</code>: performance or fine tune parameters</li>
+<li><code>test</code>: test case or unit test</li>
+<li><code>build</code>: build parameters, ex: path change etc…</li>
+<li><code>ci</code>: CI/CD, ex: gitlab-ci</li>
+<li><code>chore</code>: tools or delete files etc…</li>
+</ul>
+<p><strong>Git branch grouping</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">feat/xxx</span><br><span class="line">fix/xxx</span><br><span class="line">test/addLogForTracking</span><br></pre></td></tr></table></figure>
+
+<p><strong>Commit rule</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">feat: new game rule UI</span><br><span class="line">fix: game rule content</span><br></pre></td></tr></table></figure>
+
+<h2 id="Develop-Flow"><a href="#Develop-Flow" class="headerlink" title="Develop Flow"></a>Develop Flow</h2><ol>
+<li>Create feature branch</li>
+<li>Bug fix or feature</li>
+<li>Run local client for QA testing</li>
+<li>MR to pre-release done</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">feat/[feature] -&gt; pre-release // MR</span><br><span class="line">fix/[bug]      -&gt; pre-release // MR</span><br><span class="line">pre-release    -&gt; master      // deploy</span><br></pre></td></tr></table></figure>
+
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ol>
+<li>pre-commit hook (husky / lint-staged)</li>
+<li>commitlint / auto CHANGELOG</li>
+<li>Gitlab CI</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/10/13/Cocos-Trouble-Shooting/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1117,7 +1303,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
